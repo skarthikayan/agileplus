@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
+  name       String
+  empid      Int
+  nickname   String?
+  status     Boolean    @default(true)
+  role       Role       @default(USER)
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  backlogs   Backlog[] 
+  tasks      Task[]
+  
+  @@map("users")
+}
+
+model Sprint {
+  id         Int        @id @default(autoincrement())
+  name       String
+  start_date DateTime
+  end_date   DateTime
+  status     Boolean    @default(true)
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  backlogs   Backlog[]
+
+  @@map("sprints")
+}
+
+model Backlog {
+  id           Int           @id @default(autoincrement())
+  sprint       Sprint        @relation(references: [id], fields: [sprint_id])
+  name         String
+  story_points Int
+  status       BacklogStatus @default(NEW)
+  user         User          @relation(references: [id], fields: [user_id])
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  tasks        Task[]
+  sprint_id    Int
+  user_id      Int
+
+  @@map("backlogs")
+}
+
+model Task {
+  id          Int        @id @default(autoincrement())
+  backlog     Backlog   @relation(references: [id], fields: [backlog_id])
+  name        String
+  description String?    @db.VarChar(255)
+  user        User      @relation(references: [id], fields: [user_id])
+  hours       Int
+  status      TaskStatus @default(NEW)
+  start_date  DateTime
+  end_date    DateTime
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  backlog_id  Int
+  user_id     Int
+
+  @@map("tasks")
+}
+
+enum Role {
+  USER
+  SCRUM_MASTER
+}
+
+enum TaskStatus {
+  NEW
+  IN_PROGRESS
+  IN_REVIEW
+  DEPLOYED_TO_DEV
+  MERGED_TO_MAIN_BRANCH
+  DEPLOYED_TO_PROD
+}
+
+enum BacklogStatus {
+  NEW
+  IN_PROGRESS
+  COMPLETED
+}
