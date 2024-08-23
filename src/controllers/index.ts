@@ -1,13 +1,17 @@
-import { Router, Request, Response } from 'express';
-const router = Router();
+import { type Request, type Response } from 'express';
+import { responseHandler } from '../utils/responseHandler';
 
 /* GET home page. */
-router.get('/', function (req: Request, res: Response) {
+export function indexHandler(_req: Request, res: Response) {
   try {
-    res.send('knock knock');
+    responseHandler.success({
+      message: 'Small steps, Big impact',
+      response: res,
+    });
   } catch (e) {
-    res.status(400).send(e);
+    responseHandler.failure({
+      message: 'Error',
+      response: res,
+    });
   }
-});
-
-export default router;
+}
