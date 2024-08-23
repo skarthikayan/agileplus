@@ -1,4 +1,4 @@
-import express, { type Request, type Response, type Router } from 'express';
+import express, { type Router } from 'express';
 import { indexHandler } from '../controllers/index';
 
 const router: Router = express.Router();
