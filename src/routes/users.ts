@@ -1,6 +1,7 @@
-import express, { type Request, type Response, type Router } from 'express';
+import express, { type Router } from 'express';
 import { validateData } from '../middlewares/schema-validation';
 import { UserCreateSchema, UserUpdateSchema } from '../schemas/user-schemas';
+import { IdParamSchema } from '../schemas/common-schemas';
 import {
   userCreateHandler,
   userDeleteHandler,
@@ -15,10 +16,10 @@ router.get('/', usersListHandler);
 
 router.post('/', validateData(UserCreateSchema), userCreateHandler);
 
-router.get('/:id', userShowHandler);
+router.get('/:id', validateData(IdParamSchema), userShowHandler);
 
 router.patch('/:id', validateData(UserUpdateSchema), userUpdateHandler);
 
-router.delete('/:id', userDeleteHandler);
+router.delete('/:id', validateData(IdParamSchema), userDeleteHandler);
 
 export default router;
