@@ -57,10 +57,10 @@ model Backlog {
 
 model Task {
   id          Int        @id @default(autoincrement())
-  backlog     Backlog   @relation(references: [id], fields: [backlog_id])
+  backlog     Backlog    @relation(references: [id], fields: [backlog_id])
   name        String
   description String?    @db.VarChar(255)
-  user        User      @relation(references: [id], fields: [user_id])
+  user        User       @relation(references: [id], fields: [user_id])
   hours       Int
   status      TaskStatus @default(NEW)
   start_date  DateTime
