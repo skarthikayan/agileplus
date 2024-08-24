@@ -10,9 +10,10 @@
     "dev": "nodemon ./src/index.ts",
     "build": "tsc",
     "start": "node ./build/src/index.js",
-    "db:migrate:create-only": "prisma migrate dev --create-only",
-    "db:migrate:dev": "prisma migrate dev",
-    "db:migrate:undo": "prisma migrate reset"
+    "db:migrate:create-only": "NODE_ENV=development prisma migrate dev --create-only",
+    "db:migrate:dev": "NODE_ENV=development prisma migrate dev",
+    "db:migrate:undo": "NODE_ENV=development prisma migrate reset",
+    "db:migrate:deploy": "NODE_ENV=production prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "5.8.1",
