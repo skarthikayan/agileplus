@@ -8,6 +8,7 @@ import indexRouter from './routes/index';
 import userRouter from './routes/users';
 import sprintRoute from './routes/sprints';
 import backlogRoute from './routes/backlogs';
+import taskRoute from './routes/tasks';
 
 const app: Express = express();
 const port = process.env.API_PORT || 3000;
@@ -26,6 +27,7 @@ app.use('/', indexRouter);
 app.use(constants.baseUrl + '/users', userRouter);
 app.use(constants.baseUrl + '/sprints', sprintRoute);
 app.use(constants.baseUrl + '/backlogs', backlogRoute);
+app.use(constants.baseUrl + '/tasks', taskRoute);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

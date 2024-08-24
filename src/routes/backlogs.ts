@@ -2,6 +2,7 @@ import express, { type Router } from 'express';
 import { validateData } from '../middlewares/schema-validation';
 import {
   BacklogCreateSchema,
+  BacklogListSchema,
   BacklogUpdateSchema,
 } from '../schemas/backlog-schemas';
 import { IdParamSchema } from '../schemas/common-schemas';
@@ -15,7 +16,7 @@ import {
 
 const router: Router = express.Router();
 
-router.get('/', backlogListHandler);
+router.get('/', validateData(BacklogListSchema), backlogListHandler);
 
 router.post('/', validateData(BacklogCreateSchema), backlogCreateHandler);
 

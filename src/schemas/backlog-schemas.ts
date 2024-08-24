@@ -8,6 +8,12 @@ export const BacklogSchema = z.object({
   user_id: z.number(),
 });
 
+export const BacklogListSchema = z.object({
+  query: z.object({
+    sprint_id: z.coerce.number(),
+  }),
+});
+
 export const BacklogCreateSchema = z.object({
   body: BacklogSchema,
 });
