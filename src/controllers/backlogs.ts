@@ -33,14 +33,9 @@ export async function backlogListHandler(req: Request, res: Response) {
 /* POST create backlog. */
 export async function backlogCreateHandler(req: Request, res: Response) {
   try {
-    const { name, sprint_id, story_points, status, user_id } = req.body;
     const backlog = await prisma.backlog.create({
       data: {
-        name,
-        status,
-        story_points,
-        sprint_id,
-        user_id,
+        ...req.body,
       },
     });
 
@@ -76,7 +71,6 @@ export async function backlogShowHandler(req: Request, res: Response) {
       data: backlog,
       response: res,
     });
-    return;
   } catch (e) {
     return responseHandler.failure({
       message: 'Fetch backlog details failed',

@@ -26,15 +26,9 @@ export async function usersListHandler(_req: Request, res: Response) {
 /* POST create user. */
 export async function userCreateHandler(req: Request, res: Response) {
   try {
-    const { name, empid, nickname, email, status, role } = req.body;
     const user = await prisma.user.create({
       data: {
-        name,
-        email,
-        empid,
-        nickname,
-        status,
-        role,
+        ...req.body,
       },
     });
 

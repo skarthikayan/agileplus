@@ -26,14 +26,8 @@ export async function sprintListHandler(_req: Request, res: Response) {
 /* POST create sprint. */
 export async function sprintCreateHandler(req: Request, res: Response) {
   try {
-    const { name, start_date, end_date, status } = req.body;
     const sprint = await prisma.sprint.create({
-      data: {
-        name,
-        status,
-        start_date,
-        end_date,
-      },
+      data: { ...req.body },
     });
 
     return responseHandler.success({
@@ -66,7 +60,6 @@ export async function sprintShowHandler(req: Request, res: Response) {
       data: sprint,
       response: res,
     });
-    return;
   } catch (e) {
     return responseHandler.failure({
       message: 'Fetch sprint details failed',
