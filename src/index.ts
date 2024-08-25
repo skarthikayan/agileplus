@@ -2,9 +2,9 @@ import 'dotenv/config';
 import express, { type Express } from 'express';
 import logger from 'morgan';
 import cors from 'cors';
-import swaggerUi from 'swagger-ui-express';
-// import swaggerDocument from './configs/swagger';
-import swaggerDocument from './swagger.json';
+import openapiUI from 'swagger-ui-express';
+import openApiDocs from './configs/openapi';
+import fs from 'fs';
 
 import constants from './configs/constants';
 import indexRouter from './routes/index';
@@ -28,7 +28,15 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+fs.writeFile(
+  './openapi.json',
+  JSON.stringify(openApiDocs, null, 2),
+  (error) => {
+    if (error) console.log('Error updating openapi.json');
+    console.log('openapi.json updated');
+  },
+);
+app.use('/api-docs', openapiUI.serve, openapiUI.setup(openApiDocs));
 app.use(constants.baseUrl + '/users', userRouter);
 app.use(constants.baseUrl + '/sprints', sprintRoute);
 app.use(constants.baseUrl + '/backlogs', backlogRoute);
