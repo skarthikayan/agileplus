@@ -6,6 +6,5 @@
     "outDir": "./build",
     "esModuleInterop": true,
     "strict": true,
-    "resolveJsonModule": true,
   },
 }
