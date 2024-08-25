@@ -11,6 +11,7 @@
     "build": "tsc",
     "start": "node ./build/src/index.js",
     "db:migrate:create-only": "NODE_ENV=development prisma migrate dev --create-only",
+    "prisma:generate": "prisma generate",
     "db:migrate:dev": "NODE_ENV=development prisma migrate dev",
     "db:migrate:undo": "NODE_ENV=development prisma migrate reset",
     "db:migrate:deploy": "NODE_ENV=production prisma migrate deploy"
@@ -42,9 +43,6 @@
     "prisma": "^5.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
-  },
-  "engines": {
-    "node": "20.25.1"
   },
   "nodemonConfig": {
     "ignore": [
