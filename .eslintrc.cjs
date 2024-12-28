@@ -7,5 +7,13 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
+  overrides: [
+    {
+      files: ['src/__tests__/**'],
+      plugins: ['jest'],
+      extends: ['plugin:jest/recommended'],
+      rules: { 'jest/prefer-expect-assertions': 'off' },
+    },
+  ],
   root: true,
 };
