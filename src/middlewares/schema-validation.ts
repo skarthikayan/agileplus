@@ -17,6 +17,7 @@ export function validateData(
     } catch (error) {
       if (error instanceof ZodError) {
         const errorMessages = error.errors.map(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (issue: any) => `${issue.path.join('.')} is ${issue.message}`,
         );
         responseHandler.failure({

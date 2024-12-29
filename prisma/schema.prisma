@@ -16,6 +16,7 @@ model User {
   name       String
   empid      Int
   nickname   String?
+  password   String
   status     Boolean    @default(true)
   role       Role       @default(USER)
   created_at DateTime   @default(now())
