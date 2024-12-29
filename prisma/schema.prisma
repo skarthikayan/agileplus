@@ -23,18 +23,48 @@ model User {
   updated_at DateTime   @updatedAt
   backlogs   Backlog[] 
   tasks      Task[]
+  user_project UserProject[]
   
   @@map("users")
 }
 
+
+model Project {
+  id         Int        @id @default(autoincrement())
+  name       String
+  status     Boolean    @default(true)
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  sprints    Sprint[]
+  user_project UserProject[]
+
+
+  @@map("projects")
+}
+
+model UserProject {
+  id         Int        @id @default(autoincrement())
+  user       User       @relation(fields: [user_id], references: [id])
+  user_id    Int
+  project    Project    @relation(fields: [project_id], references: [id])
+  project_id Int
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+
+  @@map("user_projects")
+
+}
+
 model Sprint {
   id         Int        @id @default(autoincrement())
+  project    Project    @relation(references: [id], fields: [project_id])
   name       String
   start_date DateTime
   end_date   DateTime
   status     Boolean    @default(true)
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
+  project_id Int
   backlogs   Backlog[]
 
   @@map("sprints")

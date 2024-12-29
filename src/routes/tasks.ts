@@ -14,6 +14,8 @@ import {
   taskUpdateHandler,
 } from '../controllers/tasks';
 
+import { isAdmin } from '../middlewares/role-check';
+
 const router: Router = express.Router();
 
 /**
@@ -151,7 +153,7 @@ router.get('/', validateData(TaskListSchema), taskListHandler);
  *       description: Create a new task
  *       $ref: '#/components/requestBodies/taskDetails'
  */
-router.post('/', validateData(TaskCreateSchema), taskCreateHandler);
+router.post('/', isAdmin, validateData(TaskCreateSchema), taskCreateHandler);
 
 /**
  * @openapi
@@ -205,7 +207,12 @@ router.get('/:id', validateData(IdParamSchema), taskShowHandler);
  *       $ref: '#/components/requestBodies/taskDetails'
  *       required: true
  */
-router.patch('/:id', validateData(TaskUpdateSchema), taskUpdateHandler);
+router.patch(
+  '/:id',
+  isAdmin,
+  validateData(TaskUpdateSchema),
+  taskUpdateHandler,
+);
 
 /**
  * @openapi
@@ -230,6 +237,6 @@ router.patch('/:id', validateData(TaskUpdateSchema), taskUpdateHandler);
  *           type: integer
  *           format: int64
  */
-router.delete('/:id', validateData(IdParamSchema), taskDeleteHandler);
+router.delete('/:id', isAdmin, validateData(IdParamSchema), taskDeleteHandler);
 
 export default router;

@@ -14,6 +14,8 @@ import {
   backlogUpdateHandler,
 } from '../controllers/backlogs';
 
+import { isAdmin } from '../middlewares/role-check';
+
 const router: Router = express.Router();
 
 /**
@@ -140,7 +142,12 @@ router.get('/', validateData(BacklogListSchema), backlogListHandler);
  *       $ref: '#/components/requestBodies/backlogDetails'
  *       required: true
  */
-router.post('/', validateData(BacklogCreateSchema), backlogCreateHandler);
+router.post(
+  '/',
+  isAdmin,
+  validateData(BacklogCreateSchema),
+  backlogCreateHandler,
+);
 
 /**
  * @openapi
@@ -194,7 +201,12 @@ router.get('/:id', validateData(IdParamSchema), backlogShowHandler);
  *       $ref: '#/components/requestBodies/backlogDetails'
  *       required: true
  */
-router.patch('/:id', validateData(BacklogUpdateSchema), backlogUpdateHandler);
+router.patch(
+  '/:id',
+  isAdmin,
+  validateData(BacklogUpdateSchema),
+  backlogUpdateHandler,
+);
 
 /**
  * @openapi
@@ -219,6 +231,11 @@ router.patch('/:id', validateData(BacklogUpdateSchema), backlogUpdateHandler);
  *         type: integer
  *         format: int64
  */
-router.delete('/:id', validateData(IdParamSchema), backlogDeleteHandler);
+router.delete(
+  '/:id',
+  isAdmin,
+  validateData(IdParamSchema),
+  backlogDeleteHandler,
+);
 
 export default router;
