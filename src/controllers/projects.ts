@@ -123,3 +123,45 @@ export async function projectDeleteHandler(req: Request, res: Response) {
     });
   }
 }
+
+/* POST add user to project. */
+export async function addUserProjectHandler(req: Request, res: Response) {
+  try {
+    const project = await prisma.userProject.create({
+      data: { ...req.body },
+    });
+
+    return responseHandler.success({
+      message: 'user added to project successfully',
+      data: project,
+      response: res,
+    });
+  } catch (e) {
+    return responseHandler.failure({
+      message: 'adding user to project failed',
+      response: res,
+    });
+  }
+}
+
+/* DELETE remove user from project. */
+export async function deleteUserProjectHandler(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const userProjectId = z.coerce.number().parse(id);
+    const project = await prisma.userProject.delete({
+      where: { id: userProjectId },
+    });
+
+    return responseHandler.success({
+      message: 'user removed from project successfully',
+      data: project,
+      response: res,
+    });
+  } catch (e) {
+    return responseHandler.failure({
+      message: 'removing user from project failed',
+      response: res,
+    });
+  }
+}

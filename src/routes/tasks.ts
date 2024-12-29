@@ -42,7 +42,7 @@ const router: Router = express.Router();
  *         example: '2024-08-21T19:13:08.440Z'
  *       status:
  *         type: string
- *         example: true
+ *         example: NEW
  *         enum:
  *           - NEW
  *           - IN_PROGRESS
@@ -137,7 +137,7 @@ router.get('/', validateData(TaskListSchema), taskListHandler);
 
 /**
  * @openapi
- * /users:
+ * /tasks:
  *   post:
  *     tags:
  *       - Task
@@ -231,7 +231,7 @@ router.patch(
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID of task to delte
+ *         description: ID of task to delete
  *         required: true
  *         schema:
  *           type: integer

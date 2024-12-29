@@ -223,7 +223,7 @@ router.patch('/:id', validateData(UserUpdateSchema), userUpdateHandler);
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID of user to delte
+ *         description: ID of user to delete
  *         required: true
  *         schema:
  *           type: integer

@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const SprintSchema = z.object({
   name: z.string(),
   status: z.boolean(),
+  project_id: z.number(),
   start_date: z.coerce.date(),
   end_date: z.coerce.date(),
 });
