@@ -27,6 +27,9 @@ const router: Router = express.Router();
  *       name:
  *         type: string
  *         example: Sprint name
+ *       project_id:
+ *         type: number
+ *         example: 1
  *       start_date:
  *         type: string
  *         example: '2024-08-21T19:13:08.440Z'
@@ -218,7 +221,7 @@ router.patch(
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID of sprint to delte
+ *         description: ID of sprint to delete
  *         required: true
  *         schema:
  *           type: integer

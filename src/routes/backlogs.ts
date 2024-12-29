@@ -33,7 +33,7 @@ const router: Router = express.Router();
  *         example: 1
  *       status:
  *         type: string
- *         example: true
+ *         example: NEW
  *         enum:
  *           - NEW
  *           - IN_PROGRESS
@@ -225,7 +225,7 @@ router.patch(
  *   parameters:
  *     - name: id
  *       in: path
- *       description: ID of backlog to delte
+ *       description: ID of backlog to delete
  *       required: true
  *       schema:
  *         type: integer

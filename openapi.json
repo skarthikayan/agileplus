@@ -622,7 +622,7 @@
           },
           "status": {
             "type": "string",
-            "example": true,
+            "example": "NEW",
             "enum": [
               "NEW",
               "IN_PROGRESS",
@@ -676,6 +676,10 @@
             "type": "string",
             "example": "Sprint name"
           },
+          "project_id": {
+            "type": "number",
+            "example": 1
+          },
           "start_date": {
             "type": "string",
             "example": "2024-08-21T19:13:08.440Z"
@@ -715,7 +719,7 @@
           },
           "status": {
             "type": "string",
-            "example": true,
+            "example": "NEW",
             "enum": [
               "NEW",
               "IN_PROGRESS",
@@ -954,7 +958,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "ID of backlog to delte",
+            "description": "ID of backlog to delete",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1089,7 +1093,150 @@
           {
             "name": "id",
             "in": "path",
-            "description": "ID of Project to delte",
+            "description": "ID of Project to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ]
+      }
+    },
+    "/projects/add-user": {
+      "post": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Add user to Project",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "project_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        },
+        "requestBody": {
+          "description": "Create a new Project",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "project_id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/projects/remove-user/{id}": {
+      "delete": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Remove user from Project",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "project_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of Project to delete",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1224,7 +1371,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "ID of sprint to delte",
+            "description": "ID of sprint to delete",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1251,17 +1398,15 @@
             "$ref": "#/components/responses/internalServerError"
           }
         }
-      }
-    },
-    "/users": {
+      },
       "post": {
         "tags": [
-          "User"
+          "Task"
         ],
-        "summary": "Create new user",
+        "summary": "Create new task",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/userDetails"
+            "$ref": "#/components/responses/taskDetails"
           },
           "404": {
             "$ref": "#/components/responses/notFound"
@@ -1271,26 +1416,8 @@
           }
         },
         "requestBody": {
-          "description": "Create a new user",
-          "$ref": "#/components/requestBodies/userDetails",
-          "required": true
-        }
-      },
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "summary": "List all Users",
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/userList"
-          },
-          "404": {
-            "$ref": "#/components/responses/notFound"
-          },
-          "500": {
-            "$ref": "#/components/responses/internalServerError"
-          }
+          "description": "Create a new task",
+          "$ref": "#/components/requestBodies/taskDetails"
         }
       }
     },
@@ -1378,7 +1505,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "ID of task to delte",
+            "description": "ID of task to delete",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1386,6 +1513,47 @@
             }
           }
         ]
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List all Users",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/userList"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create new user",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/userDetails"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        },
+        "requestBody": {
+          "description": "Create a new user",
+          "$ref": "#/components/requestBodies/userDetails",
+          "required": true
+        }
       }
     },
     "/users/{id}": {
@@ -1472,7 +1640,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "ID of user to delte",
+            "description": "ID of user to delete",
             "required": true,
             "schema": {
               "type": "integer",
