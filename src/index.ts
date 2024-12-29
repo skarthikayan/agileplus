@@ -3,15 +3,17 @@ import express, { type Express } from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import openapiUI from 'swagger-ui-express';
-import openApiDocs from './configs/openapi';
-import fs from 'fs';
+import openApiDocs from './configs/openapi.js';
 
 import constants from './configs/constants';
 import indexRouter from './routes/index';
+import authRouter from './routes/auth';
 import userRouter from './routes/users';
 import sprintRoute from './routes/sprints';
 import backlogRoute from './routes/backlogs';
 import taskRoute from './routes/tasks';
+
+import { protectedRoute } from './middlewares/jwt';
 
 const app: Express = express();
 const port = process.env.API_PORT || 3000;
@@ -27,23 +29,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
-
-fs.writeFile(
-  './openapi.json',
-  JSON.stringify(openApiDocs, null, 2),
-  (error) => {
-    if (error) console.log('Error updating openapi.json');
-    console.log('openapi.json updated');
-  },
-);
 app.use('/api-docs', openapiUI.serve, openapiUI.setup(openApiDocs));
-app.use(constants.baseUrl + '/users', userRouter);
-app.use(constants.baseUrl + '/sprints', sprintRoute);
-app.use(constants.baseUrl + '/backlogs', backlogRoute);
-app.use(constants.baseUrl + '/tasks', taskRoute);
+
+app.use(constants.baseUrl + '/auth', authRouter);
+app.use(constants.baseUrl + '/users', protectedRoute, userRouter);
+app.use(constants.baseUrl + '/sprints', protectedRoute, sprintRoute);
+app.use(constants.baseUrl + '/backlogs', protectedRoute, backlogRoute);
+app.use(constants.baseUrl + '/tasks', protectedRoute, taskRoute);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
 
-module.exports = app;
+export default app;

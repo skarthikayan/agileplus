@@ -31,6 +31,9 @@ const router: Router = express.Router();
  *       empid:
  *         type: number
  *         example: 12345
+ *   userExtended:
+ *     type: object
+ *     properties:
  *       status:
  *         type: boolean
  *         example: true
@@ -50,7 +53,14 @@ const router: Router = express.Router();
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/user'
+ *            allOf:
+ *             - $ref: '#/components/schemas/user'
+ *             - $ref: '#/components/schemas/userExtended'
+ *             - type: object
+ *               properties:
+ *                 password:
+ *                   type: string
+ *                   example: samplepassword
  */
 
 /**
@@ -78,6 +88,7 @@ const router: Router = express.Router();
  *               items:
  *                 allOf:
  *                   - $ref: '#/components/schemas/user'
+ *                   - $ref: '#/components/schemas/userExtended'
  *                   - $ref: '#/components/schemas/default'
  *   userDetails:
  *     description: Ok
@@ -99,6 +110,7 @@ const router: Router = express.Router();
  *               type: object
  *               allOf:
  *                 - $ref: '#/components/schemas/user'
+ *                 - $ref: '#/components/schemas/userExtended'
  *                 - $ref: '#/components/schemas/default'
  */
 

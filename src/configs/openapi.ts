@@ -15,6 +15,14 @@ const options = {
     servers: [
       { url: `${process.env.API_HOST}:${process.env.API_PORT}/api/v1` },
     ],
+    components: {
+      securitySchemes: { bearerAuth: { type: 'http', scheme: 'bearer' } },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
 
   apis: ['./src/routes/*.ts'],

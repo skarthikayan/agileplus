@@ -4,7 +4,8 @@ export const UserSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   empid: z.number(),
-  nickname: z.string(),
+  password: z.string(),
+  nickname: z.optional(z.string()),
   status: z.boolean(),
   role: z.enum(['USER', 'SCRUM_MASTER']),
 });

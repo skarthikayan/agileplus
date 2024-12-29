@@ -13,7 +13,728 @@
       "url": "http://localhost:3000/api/v1"
     }
   ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "requestBodies": {
+      "signup": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "password": {
+                      "type": "string",
+                      "example": "samplepassword"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "login": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "skarthikayan7@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "password"
+                }
+              }
+            }
+          }
+        }
+      },
+      "backlogDetails": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/backlog"
+            }
+          }
+        }
+      },
+      "sprintDetails": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/sprint"
+            }
+          }
+        }
+      },
+      "taskDetails": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/task"
+            }
+          }
+        }
+      },
+      "userDetails": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                },
+                {
+                  "$ref": "#/components/schemas/userExtended"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "password": {
+                      "type": "string",
+                      "example": "samplepassword"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "login": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "abcdefghijklmnopqrstuvwxyz"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "signup": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/user"
+                    },
+                    {
+                      "$ref": "#/components/schemas/default"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "backlogList": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/backlog"
+                      },
+                      {
+                        "$ref": "#/components/schemas/default"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "backlogDetails": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/backlog"
+                    },
+                    {
+                      "$ref": "#/components/schemas/default"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "notFound": {
+        "description": "Not Found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "failed"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "internalServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "failed"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "sprintList": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/sprint"
+                      },
+                      {
+                        "$ref": "#/components/schemas/default"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "sprintDetails": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/sprint"
+                    },
+                    {
+                      "$ref": "#/components/schemas/default"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "taskList": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/task"
+                      },
+                      {
+                        "$ref": "#/components/schemas/default"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "taskDetails": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/task"
+                    },
+                    {
+                      "$ref": "#/components/schemas/default"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "userList": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/user"
+                      },
+                      {
+                        "$ref": "#/components/schemas/userExtended"
+                      },
+                      {
+                        "$ref": "#/components/schemas/default"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "userDetails": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/user"
+                    },
+                    {
+                      "$ref": "#/components/schemas/userExtended"
+                    },
+                    {
+                      "$ref": "#/components/schemas/default"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "backlog": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Backlog Name"
+          },
+          "story_points": {
+            "type": "number",
+            "example": 1
+          },
+          "status": {
+            "type": "string",
+            "example": true,
+            "enum": [
+              "NEW",
+              "IN_PROGRESS",
+              "COMPLETED"
+            ]
+          },
+          "sprint_id": {
+            "type": "number",
+            "example": 1
+          },
+          "user_id": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "default": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 12345
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2024-08-21T19:13:08.440Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2024-08-21T19:13:08.440Z"
+          }
+        }
+      },
+      "sprint": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Sprint name"
+          },
+          "start_date": {
+            "type": "string",
+            "example": "2024-08-21T19:13:08.440Z"
+          },
+          "end_date": {
+            "type": "string",
+            "example": "2024-08-21T19:13:08.440Z"
+          },
+          "status": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "task": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Task-Name"
+          },
+          "description": {
+            "type": "string",
+            "example": "Task Description"
+          },
+          "hours": {
+            "type": "number",
+            "example": 1
+          },
+          "start_date": {
+            "type": "string",
+            "example": "2024-08-21T19:13:08.440Z"
+          },
+          "end_date": {
+            "type": "string",
+            "example": "2024-08-21T19:13:08.440Z"
+          },
+          "status": {
+            "type": "string",
+            "example": true,
+            "enum": [
+              "NEW",
+              "IN_PROGRESS",
+              "IN_REVIEW",
+              "DEPLOYED_TO_DEV",
+              "MERGED_TO_MAIN_BRANCH",
+              "DEPLOYED_TO_PROD"
+            ]
+          },
+          "backlog_id": {
+            "type": "number",
+            "example": 1
+          },
+          "user_id": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "user": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Karthikayan"
+          },
+          "nickname": {
+            "type": "string",
+            "example": "Karthi"
+          },
+          "email": {
+            "type": "string",
+            "example": "skarthikayan7@gmail.com"
+          },
+          "empid": {
+            "type": "number",
+            "example": 12345
+          }
+        }
+      },
+      "userExtended": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": true
+          },
+          "role": {
+            "type": "string",
+            "example": "USER",
+            "enum": [
+              "USER",
+              "SCRUM_MASTER"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
   "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/login"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        },
+        "requestBody": {
+          "description": "login",
+          "$ref": "#/components/requestBodies/login",
+          "required": true
+        }
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Signup",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/signup"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        },
+        "requestBody": {
+          "description": "login",
+          "$ref": "#/components/requestBodies/signup",
+          "required": true
+        }
+      }
+    },
     "/backlogs": {
       "get": {
         "tags": [
@@ -530,532 +1251,6 @@
             }
           }
         ]
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "backlog": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Backlog Name"
-          },
-          "story_points": {
-            "type": "number",
-            "example": 1
-          },
-          "status": {
-            "type": "string",
-            "example": true,
-            "enum": [
-              "NEW",
-              "IN_PROGRESS",
-              "COMPLETED"
-            ]
-          },
-          "sprint_id": {
-            "type": "number",
-            "example": 1
-          },
-          "user_id": {
-            "type": "number",
-            "example": 1
-          }
-        }
-      },
-      "default": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number",
-            "example": 12345
-          },
-          "created_at": {
-            "type": "string",
-            "example": "2024-08-21T19:13:08.440Z"
-          },
-          "updated_at": {
-            "type": "string",
-            "example": "2024-08-21T19:13:08.440Z"
-          }
-        }
-      },
-      "sprint": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Sprint name"
-          },
-          "start_date": {
-            "type": "string",
-            "example": "2024-08-21T19:13:08.440Z"
-          },
-          "end_date": {
-            "type": "string",
-            "example": "2024-08-21T19:13:08.440Z"
-          },
-          "status": {
-            "type": "boolean",
-            "example": true
-          }
-        }
-      },
-      "task": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Task-Name"
-          },
-          "description": {
-            "type": "string",
-            "example": "Task Description"
-          },
-          "hours": {
-            "type": "number",
-            "example": 1
-          },
-          "start_date": {
-            "type": "string",
-            "example": "2024-08-21T19:13:08.440Z"
-          },
-          "end_date": {
-            "type": "string",
-            "example": "2024-08-21T19:13:08.440Z"
-          },
-          "status": {
-            "type": "string",
-            "example": true,
-            "enum": [
-              "NEW",
-              "IN_PROGRESS",
-              "IN_REVIEW",
-              "DEPLOYED_TO_DEV",
-              "MERGED_TO_MAIN_BRANCH",
-              "DEPLOYED_TO_PROD"
-            ]
-          },
-          "backlog_id": {
-            "type": "number",
-            "example": 1
-          },
-          "user_id": {
-            "type": "number",
-            "example": 1
-          }
-        }
-      },
-      "user": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Karthikayan"
-          },
-          "nickname": {
-            "type": "string",
-            "example": "Karthi"
-          },
-          "email": {
-            "type": "string",
-            "example": "skarthikayan7@gmail.com"
-          },
-          "empid": {
-            "type": "number",
-            "example": 12345
-          },
-          "status": {
-            "type": "boolean",
-            "example": true
-          },
-          "role": {
-            "type": "string",
-            "example": "USER",
-            "enum": [
-              "USER",
-              "SCRUM_MASTER"
-            ]
-          }
-        }
-      }
-    },
-    "requestBodies": {
-      "backlogDetails": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/backlog"
-            }
-          }
-        }
-      },
-      "sprintDetails": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/sprint"
-            }
-          }
-        }
-      },
-      "taskDetails": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/task"
-            }
-          }
-        }
-      },
-      "userDetails": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/user"
-            }
-          }
-        }
-      }
-    },
-    "responses": {
-      "backlogList": {
-        "description": "Ok",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "statusCode": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "success": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/backlog"
-                      },
-                      {
-                        "$ref": "#/components/schemas/default"
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "backlogDetails": {
-        "description": "Ok",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "statusCode": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "success": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "data": {
-                  "type": "object",
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/backlog"
-                    },
-                    {
-                      "$ref": "#/components/schemas/default"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "notFound": {
-        "description": "Not Found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "statusCode": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "failed"
-                },
-                "success": {
-                  "type": "boolean",
-                  "example": false
-                }
-              }
-            }
-          }
-        }
-      },
-      "internalServerError": {
-        "description": "Internal server error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "statusCode": {
-                  "type": "integer",
-                  "example": 500
-                },
-                "message": {
-                  "type": "string",
-                  "example": "failed"
-                },
-                "success": {
-                  "type": "boolean",
-                  "example": false
-                }
-              }
-            }
-          }
-        }
-      },
-      "sprintList": {
-        "description": "Ok",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "statusCode": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "success": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/sprint"
-                      },
-                      {
-                        "$ref": "#/components/schemas/default"
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "sprintDetails": {
-        "description": "Ok",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "statusCode": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "success": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "data": {
-                  "type": "object",
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/sprint"
-                    },
-                    {
-                      "$ref": "#/components/schemas/default"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "taskList": {
-        "description": "Ok",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "statusCode": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "success": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/task"
-                      },
-                      {
-                        "$ref": "#/components/schemas/default"
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "taskDetails": {
-        "description": "Ok",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "statusCode": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "success": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "data": {
-                  "type": "object",
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/task"
-                    },
-                    {
-                      "$ref": "#/components/schemas/default"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "userList": {
-        "description": "Ok",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "statusCode": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "success": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/user"
-                      },
-                      {
-                        "$ref": "#/components/schemas/default"
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "userDetails": {
-        "description": "Ok",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "statusCode": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "success": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "data": {
-                  "type": "object",
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/user"
-                    },
-                    {
-                      "$ref": "#/components/schemas/default"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
       }
     }
   },
