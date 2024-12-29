@@ -1,18 +1,17 @@
 import express, { type Router } from 'express';
 import { validateData } from '../middlewares/schema-validation';
 import {
-  SprintCreateSchema,
-  SprintUpdateSchema,
-} from '../schemas/sprint-schemas';
+  ProjectCreateSchema,
+  ProjectUpdateSchema,
+} from '../schemas/project-schemas';
 import { IdParamSchema } from '../schemas/common-schemas';
 import {
-  sprintListHandler,
-  sprintShowHandler,
-  sprintCreateHandler,
-  sprintUpdateHandler,
-  sprintDeleteHandler,
-} from '../controllers/sprints';
-
+  projectListHandler,
+  projectShowHandler,
+  projectCreateHandler,
+  projectUpdateHandler,
+  projectDeleteHandler,
+} from '../controllers/projects';
 import { isAdmin } from '../middlewares/role-check';
 
 const router: Router = express.Router();
@@ -21,18 +20,12 @@ const router: Router = express.Router();
  * @openapi
  * components:
  *  schemas:
- *   sprint:
+ *   project:
  *     type: object
  *     properties:
  *       name:
  *         type: string
- *         example: Sprint name
- *       start_date:
- *         type: string
- *         example: '2024-08-21T19:13:08.440Z'
- *       end_date:
- *         type: string
- *         example: '2024-08-21T19:13:08.440Z'
+ *         example: Project name
  *       status:
  *         type: boolean
  *         example: true
@@ -42,18 +35,18 @@ const router: Router = express.Router();
  * @openapi
  * components:
  *  requestBodies:
- *   sprintDetails:
+ *   projectDetails:
  *     content:
  *       application/json:
  *         schema:
- *           $ref: '#/components/schemas/sprint'
+ *           $ref: '#/components/schemas/project'
  */
 
 /**
  * @openapi
  * components:
  *  responses:
- *   sprintList:
+ *   projectList:
  *     description: Ok
  *     content:
  *       application/json:
@@ -73,9 +66,9 @@ const router: Router = express.Router();
  *               type: array
  *               items:
  *                 allOf:
- *                   - $ref: '#/components/schemas/sprint'
+ *                   - $ref: '#/components/schemas/project'
  *                   - $ref: '#/components/schemas/default'
- *   sprintDetails:
+ *   projectDetails:
  *     description: Ok
  *     content:
  *       application/json:
@@ -94,64 +87,64 @@ const router: Router = express.Router();
  *             data:
  *               type: object
  *               allOf:
- *                 - $ref: '#/components/schemas/sprint'
+ *                 - $ref: '#/components/schemas/project'
  *                 - $ref: '#/components/schemas/default'
  */
 
 /**
  * @openapi
- * /sprints:
+ * /projects:
  *   get:
  *     tags:
- *       - Sprint
- *     summary: List all Sprints
+ *       - Project
+ *     summary: List all Projects
  *     responses:
  *       '200':
- *         $ref: '#/components/responses/sprintList'
+ *         $ref: '#/components/responses/projectList'
  *       '404':
  *         $ref: '#/components/responses/notFound'
  *       '500':
  *         $ref: '#/components/responses/internalServerError'
  */
 
-router.get('/', sprintListHandler);
+router.get('/', projectListHandler);
 
 /**
  * @openapi
- * /sprints:
+ * /projects:
  *   post:
  *     tags:
- *       - Sprint
- *     summary: Create new sprint
+ *       - Project
+ *     summary: Create new Project
  *     responses:
  *       '200':
- *         $ref: '#/components/responses/sprintDetails'
+ *         $ref: '#/components/responses/projectDetails'
  *       '404':
  *         $ref: '#/components/responses/notFound'
  *       '500':
  *         $ref: '#/components/responses/internalServerError'
  *     requestBody:
- *      description: Create a new sprint
- *      $ref: '#/components/requestBodies/sprintDetails'
+ *      description: Create a new Project
+ *      $ref: '#/components/requestBodies/projectDetails'
  *      required: true
  */
 router.post(
   '/',
   isAdmin,
-  validateData(SprintCreateSchema),
-  sprintCreateHandler,
+  validateData(ProjectCreateSchema),
+  projectCreateHandler,
 );
 
 /**
  * @openapi
- * /sprints/{id}:
+ * /projects/{id}:
  *   get:
  *     tags:
- *       - Sprint
- *     summary: Show sprint Details
+ *       - Project
+ *     summary: Show Project Details
  *     responses:
  *       '200':
- *         $ref: '#/components/responses/sprintDetails'
+ *         $ref: '#/components/responses/projectDetails'
  *       '404':
  *         $ref: '#/components/responses/notFound'
  *       '500':
@@ -159,24 +152,24 @@ router.post(
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID of sprint to return
+ *         description: ID of Project to return
  *         required: true
  *         schema:
  *           type: integer
  *           format: int64
  */
-router.get('/:id', validateData(IdParamSchema), sprintShowHandler);
+router.get('/:id', validateData(IdParamSchema), projectShowHandler);
 
 /**
  * @openapi
- * /sprints/{id}:
+ * /projects/{id}:
  *   patch:
  *     tags:
- *       - Sprint
- *     summary: Edit Sprint Details
+ *       - Project
+ *     summary: Edit Project Details
  *     responses:
  *       '200':
- *         $ref: '#/components/responses/sprintDetails'
+ *         $ref: '#/components/responses/projectDetails'
  *       '404':
  *         $ref: '#/components/responses/notFound'
  *       '500':
@@ -184,33 +177,33 @@ router.get('/:id', validateData(IdParamSchema), sprintShowHandler);
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID of sprint to return
+ *         description: ID of Project to return
  *         required: true
  *         schema:
  *           type: integer
  *           format: int64
  *     requestBody:
- *       description: Create a new sprint
- *       $ref: '#/components/requestBodies/sprintDetails'
+ *       description: Create a new Project
+ *       $ref: '#/components/requestBodies/projectDetails'
  *       required: true
  */
 router.patch(
   '/:id',
   isAdmin,
-  validateData(SprintUpdateSchema),
-  sprintUpdateHandler,
+  validateData(ProjectUpdateSchema),
+  projectUpdateHandler,
 );
 
 /**
  * @openapi
- * /sprints/{id}:
+ * /projects/{id}:
  *   delete:
  *     tags:
- *       - Sprint
- *     summary: Delete Sprint Details
+ *       - Project
+ *     summary: Delete Project Details
  *     responses:
  *       '200':
- *         $ref: '#/components/responses/sprintDetails'
+ *         $ref: '#/components/responses/projectDetails'
  *       '404':
  *         $ref: '#/components/responses/notFound'
  *       '500':
@@ -218,7 +211,7 @@ router.patch(
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID of sprint to delte
+ *         description: ID of Project to delte
  *         required: true
  *         schema:
  *           type: integer
@@ -228,7 +221,7 @@ router.delete(
   '/:id',
   isAdmin,
   validateData(IdParamSchema),
-  sprintDeleteHandler,
+  projectDeleteHandler,
 );
 
 export default router;

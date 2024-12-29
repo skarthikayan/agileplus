@@ -7,7 +7,7 @@ import { responseHandler } from '../utils/responseHandler';
 import { validateJWT } from '../utils/jwt';
 import httpStatusCodes from '../configs/http-status-codes';
 
-export const protectedRoute: RequestHandler = async (
+const authenticateUser: RequestHandler = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -45,3 +45,5 @@ export const protectedRoute: RequestHandler = async (
     });
   }
 };
+
+export default authenticateUser;
